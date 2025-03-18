@@ -6,11 +6,20 @@
 
   --main-bg-color: #23282d;
   --accent-color: #f35800;
+  --global-padding: 50px 65px;
+
+  @media (max-width: 920px) {
+    --global-padding: 50px 20px;
+  }
 }
 body {
   background-color: var(--main-bg-color, #23282d);
+  margin: 0px;
+  padding: 0px;
 }
-
+a {
+  font-family: "Alfa Slab One", display;
+}
 .heading {
   color: #fff;
   font-family: "Alfa Slab One", display;
@@ -42,9 +51,10 @@ body {
 }
 
 .popover {
-    width: 80%;
+  width: 80%;
   top: 0;
   left: 0;
   position: fixed;
   margin: auto;
+  display: none;
 }
