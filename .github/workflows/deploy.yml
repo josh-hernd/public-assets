@@ -58,4 +58,4 @@ jobs:
       # Replace variable in file
       - name: Replace Variable
         run: |
-          sed -i "s|__GITHUB_PAGES_URL__|$GITHUB_PAGES_URL|g" tcr-builders/components/loader.js
+          sed -i "s|__GITHUB_PAGES_URL__|$PAGES_URL|g" tcr-builders/components/loader.js
