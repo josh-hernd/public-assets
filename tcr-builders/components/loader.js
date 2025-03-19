@@ -1,23 +1,35 @@
 async function loadComponent(componentName) {
-  switch (componentName) {
-    case "hero-section":
-      await import("../components/hero/hero-section.js");
-      
-      break;
+  let baseUrl;
 
-    case "desktop-nav":
-      await import("../components/navigation/desktop-nav.js");
+  // Check if running on localhost or GitHub Pages
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    baseUrl = '/tcr-builders/components/';
+    console.log('Loading components locally.');
+  } else {
+    baseUrl = "__GITHUB_PAGES_URL__/components/";
+    console.log('Loading components from GitHub Pages.');
+  }
 
-      break;
+  try {
+    switch (componentName) {
+      case 'hero-section':
+        await import(`${baseUrl}hero/hero-section.js`);
+        break;
 
-    default:
-      console.warn(`Component "${componentName}" not found.`);
+      case 'desktop-nav':
+        await import(`${baseUrl}navigation/desktop-nav.js`);
+        break;
+
+      default:
+        console.warn(`Component "${componentName}" not found.`);
+    }
+  } catch (error) {
+    console.error(`Error loading component "${componentName}":`, error);
   }
 }
 
-// Detect components and load them dynamically
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("hero-section, desktop-nav").forEach((element) => {
+  document.querySelectorAll("hero-section, desktop-nav").forEach(element => {
     loadComponent(element.tagName.toLowerCase());
   });
 });
