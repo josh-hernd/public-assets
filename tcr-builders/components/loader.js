@@ -6,7 +6,7 @@ async function loadComponent(componentName) {
     baseUrl = '/tcr-builders/components/';
     console.log('Loading components locally.');
   } else {
-    baseUrl = "__GITHUB_PAGES_URL__/components/";
+    baseUrl = "__GITHUB_PAGES_URL__/tcr-builders/components/";
     console.log('Loading components from GitHub Pages.');
   }
 
