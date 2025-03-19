@@ -1,3 +1,43 @@
+# name: Deploy to GitHub Pages
+
+# on:
+#   push:
+#     branches:
+#       - main  # Adjust if your branch is different
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     permissions:
+#         contents: write
+#         pages: write
+#         id-token: write
+
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@v4
+
+#       - name: Inject GitHub Pages URL
+#         run: |
+#           GITHUB_PAGES_URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+#           sed -i "s|__GITHUB_PAGES_URL__|$GITHUB_PAGES_URL|g" tcr-builders/components/loader.js
+
+#       - name: Build with Jekyll (or just copy for static sites)
+#         uses: docker://ghcr.io/actions/jekyll-build-pages:v1.0.13
+#         with:
+#             source: . # Root of your repository
+#             destination: ./_site # Output directory
+            
+#       - name: Upload to GitHub Pages
+#         uses: actions/upload-pages-artifact@v2
+#         with:
+#             path: ./_site
+
+#       - name: Deploy GitHub Pages
+#         uses: actions/deploy-pages@v2
+
+
 name: Replace Pages URL
 on: push
 jobs:
@@ -12,10 +52,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          url=$(gh api "repos/$GITHUB_REPOSITORY/pages" --jq '.html_url')
+          url=="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
           echo "PAGES_URL=$url" >> $GITHUB_ENV
       
       # Replace variable in file
       - name: Replace Variable
         run: |
-          sed -i "s/__GITHUB_PAGES_URL__/${PAGES_URL}/g" tcr-builders/components/loader.js
+          sed -i "s|__GITHUB_PAGES_URL__|$GITHUB_PAGES_URL|g" tcr-builders/components/loader.js
