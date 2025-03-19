@@ -52,10 +52,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          url=="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+          url="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
           echo "PAGES_URL=$url" >> $GITHUB_ENV
+      
+      # Verify URL was set correctly
+      - name: Debug URL
+        run: |
+          echo "Pages URL: $PAGES_URL"
       
       # Replace variable in file
       - name: Replace Variable
         run: |
-          sed -i "s|__GITHUB_PAGES_URL__|$PAGES_URL|g" tcr-builders/components/loader.js
+          sed -i "s/__GITHUB_PAGES_URL__/$PAGES_URL/g" tcr-builders/components/loader.js
+          
+          # Verify the replacement worked
+          cat tcr-builders/components/loader.js
