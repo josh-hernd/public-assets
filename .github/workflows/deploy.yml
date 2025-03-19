@@ -63,7 +63,8 @@ jobs:
       # Replace variable in file
       - name: Replace Variable
         run: |
-          sed -i "s/__GITHUB_PAGES_URL__/$PAGES_URL/g" tcr-builders/components/loader.js
+          escaped_url=${PAGES_URL//\//\\/}
+          sed -i "s/__GITHUB_PAGES_URL__/$escaped_url/g" tcr-builders/components/loader.js
           
           # Verify the replacement worked
           cat tcr-builders/components/loader.js
